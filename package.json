@@ -1,0 +1,26 @@
+{
+  "name": "delilah_resto",
+  "version": "1.0.0",
+  "description": "pasos para instalar la api: - descargar correspondencias npm (listar todas express sequelize etc) - hacer archivo con json de distintos endpoints para postman - instrucciones para arrancar el servidor",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antobayugar/delilah_resto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antobayugar/delilah_resto/issues"
+  },
+  "homepage": "https://github.com/antobayugar/delilah_resto#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  }
+}
