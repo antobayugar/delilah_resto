@@ -1,0 +1,450 @@
+openapi: 3.0.0
+servers: 
+  - description: ServidorLocal
+    url: http://localhost:3001
+  
+info:
+  title: Delilah Resto
+  version: 1.0.0
+  description: API para pedidos de comida deliciosa. Como cliente, podés registrarte, ver el listado de nuestros productos y hacer una orden. Los administradores del restaurante tienen la posibilidad de recibir pedidos y actualizarlos.
+
+tags:
+- name: productos
+  description: Todo sobre nuestros productos
+- name: pedidos
+  description: Acceso a los pedidos de clientes
+- name: usuario
+  description: Operaciones sobre los clientes
+
+paths:
+  /productos:
+    get:
+      tags:
+      - productos
+      summary: Ver listado de productos del menú
+      operationId: verProductos
+      responses:
+        '200':
+          description: Productos traídos exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:  
+                  $ref: '#/components/schemas/Producto'
+        '400':
+          description: Error 400. Lista de productos no encontrada
+    post:
+      tags:
+      - productos
+      summary: Agregar un nuevo producto al menú
+      operationId: agregarProducto
+      requestBody:
+        required: true
+        content:
+          multipart/mixed:
+            schema:
+              $ref: '#/components/schemas/Producto'
+            encoding:
+              imagen:
+                contentType: image/png, image/jpeg
+      responses:
+        '200':
+          description: Producto agregado exitosamente
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Producto'
+        '400':
+          description: Error 400. Producto no agregado
+  /productos/{productoId}:
+    get:
+      tags:
+      - productos
+      summary: Ver un producto por su Id
+      operationId: verProductoId
+      parameters: 
+      - in: path
+        name: productoId
+        schema:
+          type: integer
+        description: ID del producto a buscar
+        required: true
+      responses:
+        '200':
+          description: Producto traído exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          description: Error 400. Producto no encontrado
+    put:
+      tags:
+      - productos
+      summary: Editar un producto por su ID
+      operationId: modificarProducto
+      parameters: 
+      - in: path
+        name: productoId
+        required: true
+        content:
+          multipart/mixed:
+            schema:
+              $ref: '#/components/schemas/Producto'
+            encoding:
+              imagen:
+                contentType: image/png, image/jpeg
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          description: Error 400. Producto no actualizado
+    delete:
+      tags:
+      - productos
+      summary: Elimina un producto por su ID
+      operationId: eliminarProducto
+      parameters:
+      - in: path
+        name: productoId
+        schema:
+          type: object
+          properties:
+            id_producto:
+              type: integer
+        required: true
+        description: Producto a eliminarse
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+        '400':
+          description: Error 400. Producto no eliminado
+  /usuarios:
+    get:
+      tags:
+      - usuario
+      summary: Ver listado de usuarios
+      operationId: verUsuarios
+      responses:
+        '200':
+          description: Usuarios traídos exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:  
+                  $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Error 400. Lista de usuarios no encontrada
+  /usuario/signup:
+    post:
+      tags:
+      - usuario
+      summary: Registro del usuario en el sistema
+      operationId: nuevoUsuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Error 400. Usuario no creado
+  /usuario/login:
+    post:
+      tags:
+      - usuario
+      summary: Logueo del usuario al sistema
+      operationId: "logInUsuario"
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioLogin'
+      responses:
+        "200":
+          description: Usuario logueado exitosamente
+        "400":
+          description: Error 400. Usuario no logueado
+  /pedidos:
+    get:
+      tags:
+      - pedidos
+      summary: Ver listado de pedidos
+      operationId: verPedidos
+      responses:
+        '200':
+          description: Pedidos traídos exitosamente
+          content:
+            application/json:
+              schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Pedido'
+        '400':
+          description: Error 400. Lista de pedidos no encontrada
+    post:
+      tags:
+      - pedidos
+      summary: Agregar un nuevo pedido
+      operationId: agregarPedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoNuevo'
+      responses:
+        '200':
+          description: Pedido agregado exitosamente
+        '400':
+          description: Error 400. Pedido no agregado
+          
+  /pedidos/{pedidoId}:
+    get:
+      tags:
+      - pedidos
+      summary: Ver un pedido por su Id
+      operationId: verPedidoId
+      parameters: 
+      - in: path
+        name: pedidoId
+        schema:
+          type: integer
+        description: ID del pedido a buscar
+        required: true
+      responses:
+        '200':
+          description: Pedido traído exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          description: Error 400. Pedido no encontrado
+    put:
+      tags:
+      - pedidos
+      summary: Actualizar estado del pedido
+      operationId: actualizarPedido
+      parameters: 
+      - in: path
+        name: pedidoId
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoEstado'
+      responses:
+        '200':
+          description: Pedido actualizado exitosamente
+        '400':
+          description: Error 400. Pedido no encontrado
+    delete:
+      tags:
+      - pedidos
+      summary: Elimina un pedido por ID
+      operationId: eliminarPedido
+      parameters:
+      - in: path
+        name: pedidoId
+        schema:
+          type: object
+          properties:
+            id_pedido:
+              type: integer
+        required: true
+        description: Pedido a eliminarse
+      responses:
+        '200':
+          description: Pedido eliminado exitosamente
+        '400':
+          description: Error 400. Pedido no encontrado
+  
+components:
+  schemas:
+    Producto:
+      type: object
+      properties:
+        nombre: 
+          type: string
+          description: Nombre del producto
+          example: 'Sandwich de lomito'
+        precio:
+          type: number
+          description: Precio del producto
+          example: 420
+        descripcion:
+          type: string
+          description: Descripción corta del producto
+          example: 'Sandwich de lomito a la parrilla con queso'
+        imagen:
+          type: string
+          format: binary
+    Usuario:
+      type: object
+      properties:
+        usuario: 
+          type: string
+          description: Usuario
+          example: 'queen_freddie'
+        nombre_apellido: 
+          type: string
+          description: Nombre y apellido del usuario
+          example: 'Freddie Mercury'
+        email: 
+          type: string
+          description: Mail del usuario
+          example: 'freddie@gmail.com'
+        telefono:
+          type: integer
+          description: Teléfono del usuario
+          example: 54 11 4444 4444
+        direccion_envio:
+          type: string
+          description: Dirección de envío del usuario
+          example: 'Calle de freddie mercury, londres, uk'
+        contrasena:
+          type: string
+          description: Contraseña del usuario
+          example: '1lovemyc4ts'
+      required:
+        - usuario
+        - nombre_apellido
+        - email
+        - telefono
+        - direccion_envio
+        - contrasena
+    UsuarioLogin:
+      type: object
+      properties:
+        usuario: 
+          type: string
+          description: Usuario
+          example: 'queen_freddie'
+        email: 
+          type: string
+          description: Mail del usuario
+          example: 'freddie@gmail.com'
+        contrasena:
+          type: string
+          description: Contraseña del usuario
+          example: '1lovemyc4ts'
+      required:
+        - contrasena
+    Pedido:
+      type: object
+      properties:
+        productos: 
+          type: array
+          description: Array de productos encargados
+          items:
+            properties:
+              id_producto: 
+                type: integer
+                description: Id del pedido
+                example: 1
+              cantidad: 
+                type: integer
+                description: cantidad del producto pedido
+                example: 2
+              precio_unitario: 
+                type: number
+                description: precio del producto pedido
+                example: 330
+        precio_total: 
+          type: number
+          description: Suma total del precio de los productos encargados y sus cantidades
+          example: 660
+        metodo_pago:
+          type: string
+          enum:
+            - efectivo
+            - tarjeta
+          default: efectivo
+        estado:
+          type: string
+          enum:
+            - nuevo
+            - confirmado
+            - preparando
+            - enviando
+            - entregado
+            - cancelado
+          default: nuevo
+        hora:
+          type: string
+          description: Hora en la que el pedido se realizó
+          example: '20:44'
+        id_usuario:
+          type: integer
+          description: Cliente identificado
+          example: 33
+      required:
+        - productos
+        - precio_total
+        - metodo_pago
+        - status
+        - hora
+        - id_usuario
+    PedidoNuevo:
+      type: object
+      properties:
+        productos: 
+          type: array
+          description: Array de productos encargados
+          items:
+            properties:
+              id_producto: 
+                type: integer
+                description: Id del pedido
+                example: 1
+              cantidad: 
+                type: integer
+                description: cantidad del producto pedido
+                example: 2
+        metodo_pago:
+          type: string
+          enum:
+            - efectivo
+            - tarjeta
+          default: efectivo
+      required:
+        - productos
+        - metodo_pago
+    PedidoEstado:
+      type: object
+      properties:
+        id_pedido:
+          type: integer
+          description: Id del pedido
+          example: 1
+        estado:
+          type: string
+          enum:
+            - nuevo
+            - confirmado
+            - preparando
+            - enviando
+            - entregado
+            - cancelado
+      required:
+        - id_pedido
+        - estado
+
+externalDocs:
+  description: Explorá la API acá
+  url: https://github.com/antobayugar/delilah_resto
