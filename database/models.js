@@ -12,7 +12,6 @@ const Productos = sequelize.define(
     nombre: {
       type: DataTypes.STRING(200),
       allowNull: false,
-
     },
     precio: {
       type: DataTypes.INTEGER(10),
@@ -45,7 +44,6 @@ const Usuarios = sequelize.define(
     usuario: {
       type: DataTypes.STRING(100),
       allowNull: false,
-
     },
     nombre_apellido: {
       type: DataTypes.STRING(300),

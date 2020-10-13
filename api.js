@@ -16,6 +16,10 @@ app.use(cors());
 
 //Endpoints productos
 app.get('/productos', productos.verProductos);
+app.get('/productos/:productoId', productos.verProductoId);
+app.post('/productos', productos.agregarProducto);
+app.put('/productos/:productoId', productos.modificarProducto);
+app.delete('/productos/:productoId', productos.eliminarProducto);
 
 //Endpoints usuarios
 app.get('/usuarios', usuarios.verUsuarios);
