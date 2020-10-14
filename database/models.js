@@ -61,13 +61,13 @@ const Usuarios = sequelize.define(
       type: DataTypes.STRING(300),
       allowNull: false,
     },
-    contrasena: {
+    pw: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
     admin: {
       type: DataTypes.INTEGER(1),
-      allowNull: false,
+      allowNull: true,
     }
   },
   {

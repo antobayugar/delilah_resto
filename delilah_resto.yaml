@@ -317,7 +317,7 @@ components:
           type: string
           description: Dirección de envío del usuario
           example: 'Calle de freddie mercury, londres, uk'
-        contrasena:
+        pw:
           type: string
           description: Contraseña del usuario
           example: '1lovemyc4ts'
@@ -327,24 +327,20 @@ components:
         - email
         - telefono
         - direccion_envio
-        - contrasena
+        - pw
     UsuarioLogin:
       type: object
       properties:
         usuario: 
           type: string
-          description: Usuario
+          description: Usuario o email
           example: 'queen_freddie'
-        email: 
-          type: string
-          description: Mail del usuario
-          example: 'freddie@gmail.com'
-        contrasena:
+        pw:
           type: string
           description: Contraseña del usuario
           example: '1lovemyc4ts'
       required:
-        - contrasena
+        - pw
     Pedido:
       type: object
       properties:

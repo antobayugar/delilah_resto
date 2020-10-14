@@ -23,6 +23,8 @@ app.delete('/productos/:productoId', productos.eliminarProducto);
 
 //Endpoints usuarios
 app.get('/usuarios', usuarios.verUsuarios);
+app.post('/usuario/signup', usuarios.nuevoUsuario);
+//app.post('/usuario/login', usuarios.logInUsuario);
 
 
 //Servidor
