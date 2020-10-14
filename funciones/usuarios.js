@@ -19,16 +19,15 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
 
     var usuarioValido = await Usuarios.findAll({
         where: {
-            usuario: nuevoUsuario,
+            usuario: nuevoUsuario
         }
     });
 
     var mailValido = await Usuarios.findAll({
         where: {
-            email: nuevoEmail,
+            email: nuevoEmail
         }
     });
-    //console.log(usuarioValido);
 
     //si no existen, crear el usuario
     if (usuarioValido.length < 1 && mailValido.length < 1) {
@@ -47,9 +46,10 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
                 console.log(err);
                 res.status(400).send('Error 400. Usuario no creado');
             })
-    } else if (usuarioValido.length >= 1) {
+    } else if (usuarioValido.length >= 1) { //si ya existe el nombre de usuario devuelvo error
         res.status(404).send('El usuario ingresado ya existe, pruebe con otro');
-    } else {
+
+    } else {//si ya existe el email devuelvo error
         res.status(404).send('El email ingresado ya existe, pruebe con otro');
     }
 };
