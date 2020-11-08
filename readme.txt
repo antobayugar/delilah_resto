@@ -1,4 +1,4 @@
-pasos para instalar la api:
+HOLA pasos para instalar la api:
 - descargar correspondencias npm (express, sequelize, body-parser, cors, mysql2,jwt)
 - hacer archivo con json de distintos endpoints para postman
 - configurar datos para sql (user, pw, etc) en archivo .env

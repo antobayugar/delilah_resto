@@ -65,6 +65,10 @@ const Usuarios = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
+    /* carrito: {
+      type: DataTypes.STRING(300),
+      allowNull: false,
+    }, */
     admin: {
       type: DataTypes.INTEGER(1),
       allowNull: true,
