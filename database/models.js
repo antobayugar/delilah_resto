@@ -7,23 +7,23 @@ const Productos = sequelize.define(
     id_producto: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     nombre: {
       type: DataTypes.STRING(200),
-      allowNull: false,
+      allowNull: false
     },
     precio: {
       type: DataTypes.INTEGER(10),
-      allowNull: false,
+      allowNull: false
     },
     descripcion: {
       type: DataTypes.STRING(300),
-      allowNull: false,
+      allowNull: false
     },
     imagen: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     }
   },
   {
@@ -39,19 +39,19 @@ const Usuarios = sequelize.define(
     id_usuario: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     usuario: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
     nombre_apellido: {
       type: DataTypes.STRING(300),
-      allowNull: false,
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
     telefono: {
       type: DataTypes.INTEGER(100),
@@ -59,19 +59,15 @@ const Usuarios = sequelize.define(
     },
     direccion_envio: {
       type: DataTypes.STRING(300),
-      allowNull: false,
+      allowNull: false
     },
     pw: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
-    /* carrito: {
-      type: DataTypes.STRING(300),
-      allowNull: false,
-    }, */
     admin: {
       type: DataTypes.INTEGER(1),
-      allowNull: true,
+      allowNull: true
     }
   },
   {
@@ -81,7 +77,113 @@ const Usuarios = sequelize.define(
 );
 
 
+const Pedidos = sequelize.define(
+  "pedidos",
+  {
+    // Model attributes are defined here
+    id_pedido: {
+      type: DataTypes.INTEGER(11),
+      primaryKey: true,
+      autoIncrement: true
+    },
+    fecha_pedido: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    id_estado: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false
+    },
+    id_pago: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false
+    },
+    id_usuario:{
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    }
+  },
+  {
+    // Other model options go here
+    timestamps: false,
+  }
+);
+
+const Pedido_detalle = sequelize.define(
+  "pedido_detalle",
+  {
+    // Model attributes are defined here
+    id_detalle: {
+      type: DataTypes.INTEGER(11),
+      primaryKey: true,
+      autoIncrement: true
+    },
+    id_pedido: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    },
+    id_producto: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    },
+    cantidad_producto:{
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    }
+  },
+  {
+    // Other model options go here
+    timestamps: false,
+  }
+);
+
+const Pedido_estado = sequelize.define(
+  "pedido_estado",
+  {
+    // Model attributes are defined here
+    id_estado: {
+      type: DataTypes.INTEGER(1),
+      primaryKey: true,
+      autoIncrement: true
+    },
+    estado: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    }
+  },
+  {
+    // Other model options go here
+    timestamps: false,
+  }
+);
+
+const Pedido_tiposdepago = sequelize.define(
+  "pedido_tiposdepago",
+  {
+    // Model attributes are defined here
+    id_pago: {
+      type: DataTypes.INTEGER(1),
+      primaryKey: true,
+      autoIncrement: true
+    },
+    tipo_pago: {
+      type: DataTypes.STRING(30),
+      allowNull: false
+    }
+  },
+  {
+    // Other model options go here
+    timestamps: false,
+  }
+);
+
+
+
 module.exports = {
     Productos,
-    Usuarios
+    Usuarios,
+    Pedidos,
+    Pedido_detalle,
+    Pedido_estado,
+    Pedido_tiposdepago
 }

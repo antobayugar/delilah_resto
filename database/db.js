@@ -23,9 +23,9 @@ async function conectar() {
 
 conectar();
 
-sequelize.sync({ force: false }).then(() => {
-  console.log("Tablas sincronizadas");
-});
+sequelize.sync({ force: false })
+  .then(() => { console.log("Tablas sincronizadas"); })
+  .catch((err) => { console.log("Tablas no sincronizadas, error: ", err); })
 
 module.exports = {
   sequelize,
