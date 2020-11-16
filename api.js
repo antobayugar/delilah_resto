@@ -9,7 +9,7 @@ dotenv.config();
 //llamo a modules de funciones y middlewares
 const productos = require('./funciones/productos');
 const usuarios = require('./funciones/usuarios');
-/* const pedidos = require('./funciones/pedidos'); */
+const pedidos = require('./funciones/pedidos');
 const { usersOk, adminOk } = require('./funciones/middlewares');
 
 const app = express();
@@ -30,8 +30,11 @@ app.post('/usuario/signup', usuarios.nuevoUsuario);
 app.post('/usuario/login', usuarios.logInUsuario);
 
 //Endpoints pedidos
-
-
+app.get('/pedidos', usersOk, adminOk, pedidos.verPedidos);
+//app.get('/pedido/:pedidoId', usersOk, pedidos.detallePedido);
+app.post('/pedidos', usersOk, pedidos.crearPedido);
+//app.put('/pedidos/:pedidoId', usersOk, adminOk, pedidos.modificarPedido);
+//app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);
 
 //Servidor
 app.listen(process.env.PORT, () => {

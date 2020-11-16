@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Op } = require("sequelize");
+const { Sequelize, DataTypes, Op, QueryTypes } = require("sequelize");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -30,5 +30,6 @@ sequelize.sync({ force: false })
 module.exports = {
   sequelize,
   DataTypes,
-  Op
+  Op,
+  QueryTypes
 }

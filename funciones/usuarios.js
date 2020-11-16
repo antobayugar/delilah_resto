@@ -69,6 +69,7 @@ const logInUsuario = async function logInUsuario(req, res) {
 
     //valido que existan dentro de la tabla
     var usuarioExiste = await Usuarios.findAll({
+        attributes: ['id_usuario', 'usuario', 'pw', 'admin'],
         where: {
             [Op.or]: [
                 { usuario: usuarioIngresado },
@@ -85,21 +86,9 @@ const logInUsuario = async function logInUsuario(req, res) {
         return res.status(404).send('La contraseña ingresada es incorrecta. Intentá otra vez.');
 
     } else { //si existe y su contraseña es correcta, le doy acceso al sistema
-        
-        var datosUsuarioArray = await Usuarios.findAll({
-            attributes: ['id_usuario', 'usuario', 'pw', 'admin'],
-            where: {
-                usuario: {
-                    [Op.eq]: usuarioIngresado
-                }
-            }
-        });
-
-        var datosUsuario = datosUsuarioArray[0].dataValues;
-
+        var datosUsuario = usuarioExiste[0].dataValues;
         //agrego el JWT
         const token = jwt.sign({ datosUsuario }, firma);
-
         return res.status(200).json({ msg: 'Bienvenidx al sistema.', usuario: usuarioExiste[0].dataValues.usuario, token: token });
     }
 };

@@ -1,5 +1,5 @@
-const { Productos, Usuarios } = require('../database/models');
-const { Sequelize, DataTypes, Op } = require('../database/db');
+/* const { Productos, Usuarios } = require('../database/models');
+const { Sequelize, DataTypes, Op } = require('../database/db'); */
 const { jwt, firma } = require('../token');
 
 
@@ -26,11 +26,11 @@ function adminOk(req, res, next) {
         const token = req.headers.authorization.split(' ')[1]
         const tokenVerify = jwt.verify(token, firma);
         if (tokenVerify) {
-            console.log(tokenVerify.datosUsuario.admin);
+            //console.log(tokenVerify.datosUsuario.admin);
             if (tokenVerify.datosUsuario.admin == 1) {
                 return next()
             } else {
-                res.status(401).send('No puede realizar la acción, sólo puede realizarla usuario con rol administrador')
+                res.status(401).send('No puede realizar la acción, sólo puede realizarla un usuario con rol de administrador')
             } 
         }
     } catch (err) {

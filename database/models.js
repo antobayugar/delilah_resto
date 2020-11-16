@@ -87,8 +87,7 @@ const Pedidos = sequelize.define(
       autoIncrement: true
     },
     fecha_pedido: {
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATE
     },
     id_estado: {
       type: DataTypes.INTEGER(1),
@@ -109,8 +108,8 @@ const Pedidos = sequelize.define(
   }
 );
 
-const Pedido_detalle = sequelize.define(
-  "pedido_detalle",
+const Pedido_detalles = sequelize.define(
+  "pedido_detalles",
   {
     // Model attributes are defined here
     id_detalle: {
@@ -137,8 +136,8 @@ const Pedido_detalle = sequelize.define(
   }
 );
 
-const Pedido_estado = sequelize.define(
-  "pedido_estado",
+const Pedido_estados = sequelize.define(
+  "pedido_estados",
   {
     // Model attributes are defined here
     id_estado: {
@@ -157,8 +156,8 @@ const Pedido_estado = sequelize.define(
   }
 );
 
-const Pedido_tiposdepago = sequelize.define(
-  "pedido_tiposdepago",
+const Pedido_tiposdepagos = sequelize.define(
+  "pedido_tiposdepagos",
   {
     // Model attributes are defined here
     id_pago: {
@@ -183,7 +182,7 @@ module.exports = {
     Productos,
     Usuarios,
     Pedidos,
-    Pedido_detalle,
-    Pedido_estado,
-    Pedido_tiposdepago
+    Pedido_detalles,
+    Pedido_estados,
+    Pedido_tiposdepagos
 }

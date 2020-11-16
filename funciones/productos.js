@@ -82,17 +82,17 @@ const modificarProducto = async function modificarProducto(req, res) {
                 id_producto: productoId
             }
         })
+            .then(data => {
+                return res.status(200).json({ msg: 'Producto actualizado exitosamente.', producto: productoId });
+            })
             .catch(err => {
                 console.log(err);
                 return res.status(400).send('Error 400. Producto no actualizado.');
             })
 
-        return res.status(200).json({ msg: 'Producto actualizado exitosamente.', producto: productoId });
-
     } else { //si no existe el id del producto, devuelvo error
         return res.status(404).send('El producto ingresado no existe. No se actualizó ningun producto.');
     }
-
 };
 
 
@@ -114,12 +114,13 @@ const eliminarProducto = async function eliminarProducto(req, res) {
                 id_producto: productoId
             }
         })
+            .then(data => {
+                return res.status(200).json({ msg: 'Producto eliminado exitosamente.', producto: productoId });
+            })
             .catch(err => {
                 console.log(err);
                 return res.status(400).send('Error 400. Producto no eliminado.');
             })
-
-        return res.status(200).json({ msg: 'Producto eliminado exitosamente.', producto: productoId });
 
     } else { //si no existe el id del producto, devuelvo error
         res.status(404).send('El producto ingresado no existe. No se eliminó ningun producto.');
