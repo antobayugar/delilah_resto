@@ -25,13 +25,10 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
 
     var usuarioValido = await Usuarios.findAll({
         where: {
-            usuario: nuevoUsuario
-        }
-    });
-
-    var mailValido = await Usuarios.findAll({
-        where: {
-            email: nuevoEmail
+            [Op.or]: [
+                { usuario: nuevoUsuario },
+                { email: nuevoEmail }
+            ]
         }
     });
 

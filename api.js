@@ -31,7 +31,7 @@ app.post('/usuario/login', usuarios.logInUsuario);
 
 //Endpoints pedidos
 app.get('/pedidos', usersOk, adminOk, pedidos.verPedidos);
-//app.get('/pedido/:pedidoId', usersOk, pedidos.detallePedido);
+app.get('/pedidos/:pedidoId', usersOk, pedidos.detallePedido);
 app.post('/pedidos', usersOk, pedidos.crearPedido);
 //app.put('/pedidos/:pedidoId', usersOk, adminOk, pedidos.modificarPedido);
 //app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);

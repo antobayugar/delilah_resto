@@ -68,7 +68,41 @@ const verPedidos = async function verPedidos(req, res) {
 
 //fx para ver todos el pedido del usuario
 const detallePedido = async function detallePedido(req, res) {
+    const pedidoId = req.params.pedidoId;
 
+    //validacion: busco el pedido id
+    await Pedidos.findByPk(pedidoId)
+        .then(data => {
+            if (data === null) {
+                //si no se encuentra, devuelvo pedido no encontrado
+                return res.status(400).send('Error 400. Producto no encontrado.');
+            } else {
+                //si se encuentra, hago el query 
+                sequelize.query(`SELECT  
+                ped.id_pedido,
+                st.estado,
+                pr.nombre,
+                det.cantidad_producto,
+                pr.precio,
+                pr.precio * det.cantidad_producto subtotal
+                FROM pedidos ped
+                INNER JOIN pedido_detalles det ON ped.id_pedido = det.id_pedido
+                INNER JOIN productos pr ON det.id_producto = pr.id_producto
+                INNER JOIN pedido_estados st ON st.id_estado = ped.id_estado
+                WHERE ped.id_pedido = ${pedidoId}`,
+                { type: QueryTypes.SELECT })
+                    .then(data => {
+                        return res.status(200).json({ msg: 'Pedido traído exitosamente.', pedido: data });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        return res.status(404).send('Error 404. Intente de nuevo');
+                    })
+            }
+        })
+        .catch(err => {
+            return res.status(404).send('Error 404. Intente de nuevo');
+        })
 };
 
 //fx para actualizar el estado de un pedido
@@ -84,8 +118,8 @@ const eliminarPedido = async function eliminarPedido(req, res) {
 
 module.exports = {
     crearPedido,
-    verPedidos
-    //detallePedido,
-    // modificarPedido,
+    verPedidos,
+    detallePedido,
+    modificarPedido
     //eliminarPedido
 }
