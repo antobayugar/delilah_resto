@@ -1,12 +1,14 @@
-const { Pedidos, Pedido_detalles, Pedido_estados, Pedido_tiposdepagos } = require('../database/models');
-const { sequelize, DataTypes, Op, QueryTypes } = require('../database/db');
+const { Pedidos, Pedido_detalles } = require('../database/models');
+const { sequelize, QueryTypes } = require('../database/db');
 
 
 //fx para crear un nuevo pedido
 const crearPedido = async function crearPedido(req, res) {
     var pedidoId;
+    //obtengo el usuario que quiere realizar el pedido
     var userId = req.user.datosUsuario.id_usuario;
 
+    //creo un pedido nuevo relacionado a ese usuario
     await Pedidos.create({
         id_estado: 1,
         id_pago: req.body.id_pago,
@@ -36,34 +38,43 @@ const crearPedido = async function crearPedido(req, res) {
 
 //fx para ver todos los pedidos realizados
 const verPedidos = async function verPedidos(req, res) {
-    await sequelize.query(`SELECT  
-            ped.id_pedido,
-            ped.fecha_pedido,
-            st.estado,
-            tp.tipo_pago,
-            pr.nombre,
-            det.cantidad_producto,
-            pr.precio,
-            pr.precio * det.cantidad_producto subtotal,
-            us.usuario,
-            us.nombre_apellido,
-            us.direccion_envio,
-            us.email
-            FROM pedidos ped
-            INNER JOIN pedido_detalles det ON ped.id_pedido = det.id_pedido 
-            INNER JOIN productos pr ON det.id_producto = pr.id_producto
-            INNER JOIN usuarios us ON us.id_usuario = ped.id_usuario
-            INNER JOIN pedido_tiposdepagos tp ON tp.id_pago = ped.id_pago
-            INNER JOIN pedido_estados st ON st.id_estado = ped.id_estado`,
-        { type: QueryTypes.SELECT })
+    //valido que existan pedidos
+    await Pedidos.findAll()
         .then(data => {
-            return res.status(200).json({ msg: 'Lista de pedidos traídos exitosamente.', pedidos: data });
+            if (data === null) {
+                //si no existen, devuelvo el mensaje
+                return res.status(400).send('Error 400. Lista de pedidos no encontrada.');
+            } else {
+                //si existen, devuelvo la lista
+                sequelize.query(`SELECT  
+                    ped.id_pedido,
+                    ped.fecha_pedido,
+                    st.estado,
+                    tp.tipo_pago,
+                    pr.nombre,
+                    det.cantidad_producto,
+                    pr.precio,
+                    pr.precio * det.cantidad_producto subtotal,
+                    us.usuario,
+                    us.nombre_apellido,
+                    us.direccion_envio,
+                    us.email
+                    FROM pedidos ped
+                    INNER JOIN pedido_detalles det ON ped.id_pedido = det.id_pedido 
+                    INNER JOIN productos pr ON det.id_producto = pr.id_producto
+                    INNER JOIN usuarios us ON us.id_usuario = ped.id_usuario
+                    INNER JOIN pedido_tiposdepagos tp ON tp.id_pago = ped.id_pago
+                    INNER JOIN pedido_estados st ON st.id_estado = ped.id_estado`,
+                    { type: QueryTypes.SELECT })
+                    .then(data => {
+                        return res.status(200).json({ msg: 'Lista de pedidos traídos exitosamente.', pedidos: data });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        return res.status(404).send('Error 404. Intente nuevamente.');
+                    })
+            }
         })
-        .catch(err => {
-            console.log(err);
-            return res.status(400).send('Error 400. Lista de pedidos no encontrada.');
-        })
-        ;
 };
 
 //fx para ver todos el pedido del usuario
@@ -75,7 +86,7 @@ const detallePedido = async function detallePedido(req, res) {
         .then(data => {
             if (data === null) {
                 //si no se encuentra, devuelvo pedido no encontrado
-                return res.status(400).send('Error 400. Producto no encontrado.');
+                return res.status(400).send('Error 400. Pedido no encontrado.');
             } else {
                 //si se encuentra, hago el query 
                 sequelize.query(`SELECT  
@@ -96,12 +107,13 @@ const detallePedido = async function detallePedido(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente de nuevo');
+                        return res.status(404).send('Error 404. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
-            return res.status(404).send('Error 404. Intente de nuevo');
+            console.log(err);
+            return res.status(404).send('Error 404. Intente nuevamente.');
         })
 };
 
@@ -130,11 +142,13 @@ const modificarPedido = async function modificarPedido(req, res) {
                         return res.status(200).json({ msg: 'Estado del pedido actualizado exitosamente.', pedido: pedidoId });
                     })
                     .catch(err => {
+                        console.log(err);
                         return res.status(404).send('Error 404. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
+            console.log(err);
             return res.status(404).send('Error 404. Intente nuevamente.');
         })
 };
@@ -162,11 +176,13 @@ const eliminarPedido = async function eliminarPedido(req, res) {
                         return res.status(200).json({ msg: 'Pedido eliminado exitosamente.', pedido: pedidoId });
                     })
                     .catch(err => {
+                        console.log(err);
                         return res.status(404).send('Error 404. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
+            console.log(err);
             return res.status(404).send('Error 404. Intente nuevamente.');
         })
 };
