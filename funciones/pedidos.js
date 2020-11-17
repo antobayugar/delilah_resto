@@ -90,7 +90,7 @@ const detallePedido = async function detallePedido(req, res) {
                 INNER JOIN productos pr ON det.id_producto = pr.id_producto
                 INNER JOIN pedido_estados st ON st.id_estado = ped.id_estado
                 WHERE ped.id_pedido = ${pedidoId}`,
-                { type: QueryTypes.SELECT })
+                    { type: QueryTypes.SELECT })
                     .then(data => {
                         return res.status(200).json({ msg: 'Pedido traído exitosamente.', pedido: data });
                     })
@@ -107,12 +107,68 @@ const detallePedido = async function detallePedido(req, res) {
 
 //fx para actualizar el estado de un pedido
 const modificarPedido = async function modificarPedido(req, res) {
+    //obtengo el pedido a modificar con su param id
+    //valido que exista el pedido
+    const pedidoId = req.params.pedidoId;
 
+    //validacion: busco el pedido id
+    await Pedidos.findByPk(pedidoId)
+        .then(data => {
+            if (data === null) {
+                //si no se encuentra, devuelvo pedido no encontrado
+                return res.status(400).send('Error 400. Pedido no encontrado.');
+            } else {
+                //si se encuentra, hago el update
+                Pedidos.update({
+                    id_estado: req.body.estado_nuevo
+                }, {
+                    where: {
+                        id_pedido: pedidoId
+                    }
+                })
+                    .then(data => {
+                        return res.status(200).json({ msg: 'Estado del pedido actualizado exitosamente.', pedido: pedidoId });
+                    })
+                    .catch(err => {
+                        return res.status(404).send('Error 404. Intente nuevamente.');
+                    })
+            }
+        })
+        .catch(err => {
+            return res.status(404).send('Error 404. Intente nuevamente.');
+        })
 };
 
 //fx para eliminar un pedido
 const eliminarPedido = async function eliminarPedido(req, res) {
+    //obtengo el pedido a eliminar con su param id
+    //valido que exista el pedido
+    const pedidoId = req.params.pedidoId;
 
+    //validacion: busco el pedido id
+    await Pedidos.findByPk(pedidoId)
+        .then(data => {
+            if (data === null) {
+                //si no se encuentra, devuelvo pedido no encontrado
+                return res.status(400).send('Error 400. Pedido no encontrado.');
+            } else {
+                //si se encuentra, hago el delete
+                Pedidos.destroy({
+                    where: {
+                        id_pedido: pedidoId
+                    }
+                })
+                    .then(data => {
+                        return res.status(200).json({ msg: 'Pedido eliminado exitosamente.', pedido: pedidoId });
+                    })
+                    .catch(err => {
+                        return res.status(404).send('Error 404. Intente nuevamente.');
+                    })
+            }
+        })
+        .catch(err => {
+            return res.status(404).send('Error 404. Intente nuevamente.');
+        })
 };
 
 
@@ -120,6 +176,6 @@ module.exports = {
     crearPedido,
     verPedidos,
     detallePedido,
-    modificarPedido
-    //eliminarPedido
+    modificarPedido,
+    eliminarPedido
 }

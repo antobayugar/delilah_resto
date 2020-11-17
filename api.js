@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-//const jwt = require('jsonwebtoken');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -33,8 +32,9 @@ app.post('/usuario/login', usuarios.logInUsuario);
 app.get('/pedidos', usersOk, adminOk, pedidos.verPedidos);
 app.get('/pedidos/:pedidoId', usersOk, pedidos.detallePedido);
 app.post('/pedidos', usersOk, pedidos.crearPedido);
-//app.put('/pedidos/:pedidoId', usersOk, adminOk, pedidos.modificarPedido);
-//app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);
+app.put('/pedidos/:pedidoId', usersOk, adminOk, pedidos.modificarPedido);
+app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);
+
 
 //Servidor
 app.listen(process.env.PORT, () => {

@@ -64,11 +64,7 @@ const modificarProducto = async function modificarProducto(req, res) {
     //obtengo el producto a modificar con su param id
     //valido que exista el producto
     const productoId = req.params.productoId;
-    var productoValido = await Productos.findAll({
-        where: {
-            id_producto: productoId
-        }
-    });
+    var productoValido = await Productos.findByPk(productoId);
 
     //si existe, reemplazo todos los datos del producto
     if (productoValido.length >= 1) {
