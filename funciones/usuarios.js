@@ -1,5 +1,5 @@
 const { Usuarios } = require('../database/models');
-const { Sequelize, DataTypes, Op } = require('../database/db');
+const { Op } = require('../database/db');
 const { jwt, firma } = require('../token');
 
 
@@ -25,12 +25,23 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
 
     var usuarioValido = await Usuarios.findAll({
         where: {
-            [Op.or]: [
-                { usuario: nuevoUsuario },
-                { email: nuevoEmail }
-            ]
+            usuario: nuevoUsuario
         }
-    });
+    })
+        .catch(err => {
+            console.log(err);
+            return res.status(404).send('Error 404. Intente nuevamente.');
+        });
+
+    var mailValido = await Usuarios.findAll({
+        where: {
+            email: nuevoEmail
+        }
+    })
+        .catch(err => {
+            console.log(err);
+            return res.status(404).send('Error 404. Intente nuevamente.');
+        });
 
     //si no existen, crear el usuario
     if (usuarioValido.length < 1 && mailValido.length < 1) {
@@ -47,14 +58,17 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
             })
             .catch(err => {
                 console.log(err);
-                return res.status(400).send('Error 400. Usuario no creado.');
+                return res.status(404).send('Error 404. Intente nuevamente.');
             })
     } else if (usuarioValido.length >= 1) { //si ya existe el nombre de usuario devuelvo error
-        return res.status(404).send('El usuario ingresado ya existe, intentá con otro.');
+        return res.status(400).send('El usuario ingresado ya existe, intentá con otro.');
 
     } else {//si ya existe el email devuelvo error
-        return res.status(404).send('El email ingresado ya existe, intentá con otro.');
+        return res.status(400).send('El email ingresado ya existe, intentá con otro.');
     }
+
+
+
 };
 
 
@@ -73,7 +87,11 @@ const logInUsuario = async function logInUsuario(req, res) {
                 { email: usuarioIngresado }
             ]
         }
-    });
+    })
+        .catch(err => {
+            console.log(err);
+            return res.status(404).send('Error 404. Intente nuevamente.');
+        });
 
     //si no existe, devuelvo mensaje de error
     if (usuarioExiste.length < 1) {
