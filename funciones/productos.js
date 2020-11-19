@@ -8,7 +8,7 @@ const verProductos = async function verProductos(req, res) {
         })
         .catch(err => {
             console.log(err);
-            return res.status(400).send('Error 400. Lista de productos no encontrada.');
+            return res.status(404).send('Error 404. Lista de productos no encontrada.');
         })
 };
 
@@ -22,7 +22,7 @@ const verProductoId = async function verProductoId(req, res) {
         .then(data => {
             if (data === null) {
                 //si no se encuentra, devuelvo producto no encontrado
-                return res.status(400).send('Error 400. Producto no encontrado.');
+                return res.status(404).send('Error 404. Producto no encontrado.');
             } else {
                 //si se encuentra, lo traigo
                 return res.status(200).json({ msg: 'Producto traído exitosamente.', producto: data });
@@ -30,7 +30,7 @@ const verProductoId = async function verProductoId(req, res) {
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -59,7 +59,7 @@ const agregarProducto = async function agregarProducto(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             } else {
                 //si ya existe el producto devuelvo error
@@ -68,7 +68,7 @@ const agregarProducto = async function agregarProducto(req, res) {
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -83,7 +83,7 @@ const modificarProducto = async function modificarProducto(req, res) {
         .then(data => {
             if (data === null) {
                 //si no existe el producto, devuelvo error
-                return res.status(400).send('Error 400. El producto ingresado no existe. No se actualizó ningun producto.');
+                return res.status(404).send('Error 404. El producto ingresado no existe. No se actualizó ningun producto.');
             } else {
                 //si existe, reemplazo todos los datos del producto
                 Productos.update({
@@ -101,13 +101,13 @@ const modificarProducto = async function modificarProducto(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -122,7 +122,7 @@ const eliminarProducto = async function eliminarProducto(req, res) {
         .then(data => {
             if (data === null) {
                 //si no existe el id del producto, devuelvo error
-                res.status(400).send('Error 400. El producto ingresado no existe. No se eliminó ningun producto.');
+                res.status(404).send('Error 404. El producto ingresado no existe. No se eliminó ningun producto.');
             } else {
                 //si existe, elimino el producto
                 Productos.destroy({
@@ -135,7 +135,7 @@ const eliminarProducto = async function eliminarProducto(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 400. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })

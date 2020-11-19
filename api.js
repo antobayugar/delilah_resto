@@ -30,7 +30,7 @@ app.post('/usuario/login', usuarios.logInUsuario);
 
 //Endpoints pedidos
 app.get('/pedidos', usersOk, adminOk, pedidos.verPedidos);
-app.get('/pedidos/:pedidoId', usersOk, pedidos.detallePedido);
+app.get('/pedidos/:pedidoId', usersOk, pedidos.verPedidoId);
 app.post('/pedidos', usersOk, pedidos.crearPedido);
 app.put('/pedidos/:pedidoId', usersOk, adminOk, pedidos.modificarPedido);
 app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);
@@ -38,5 +38,5 @@ app.delete('/pedidos/:pedidoId', usersOk, adminOk, pedidos.eliminarPedido);
 
 //Servidor
 app.listen(process.env.PORT, () => {
-  console.log("Servidor escuchando en puerto 3001");
+  console.log("Servidor escuchando en puerto " + process.env.PORT);
 });

@@ -12,7 +12,7 @@ const verUsuarios = async function verUsuarios(req, res) {
         })
         .catch(err => {
             console.log(err);
-            return res.status(400).send('Error 400. Lista de usuarios no encontrada.');
+            return res.status(404).send('Error 404. Lista de usuarios no encontrada.');
         })
 };
 
@@ -30,7 +30,7 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
     })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         });
 
     var mailValido = await Usuarios.findAll({
@@ -40,7 +40,7 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
     })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         });
 
     //si no existen, crear el usuario
@@ -58,7 +58,7 @@ const nuevoUsuario = async function nuevoUsuario(req, res) {
             })
             .catch(err => {
                 console.log(err);
-                return res.status(404).send('Error 404. Intente nuevamente.');
+                return res.status(400).send('Error 400. Intente nuevamente.');
             })
     } else if (usuarioValido.length >= 1) { //si ya existe el nombre de usuario devuelvo error
         return res.status(400).send('El usuario ingresado ya existe, intentá con otro.');
@@ -90,21 +90,21 @@ const logInUsuario = async function logInUsuario(req, res) {
     })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         });
 
     //si no existe, devuelvo mensaje de error
     if (usuarioExiste.length < 1) {
-        return res.status(404).send('El usuario ingresado no existe, intentá con otro o registrate para acceder.');
+        return res.status(404).send('Error 404. El usuario ingresado no existe, intentá con otro o registrate para acceder.');
 
     } else if (usuarioExiste[0].dataValues.pw !== pwIngresado) { //si existe, valido su contraseña
-        return res.status(404).send('La contraseña ingresada es incorrecta. Intentá otra vez.');
+        return res.status(400).send('La contraseña ingresada es incorrecta. Intentá otra vez.');
 
     } else { //si existe y su contraseña es correcta, le doy acceso al sistema
         var datosUsuario = usuarioExiste[0].dataValues;
         //agrego el JWT
         const token = jwt.sign({ datosUsuario }, firma);
-        return res.status(200).json({ msg: 'Bienvenidx al sistema.', usuario: usuarioExiste[0].dataValues.usuario, token: token });
+        return res.status(200).json({ msg: 'Usuario logueado exitosamente. Bienvenidx al sistema.', usuario: usuarioExiste[0].dataValues.usuario, token: token });
     }
 };
 

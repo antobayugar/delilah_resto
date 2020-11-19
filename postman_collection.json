@@ -1,0 +1,517 @@
+{
+	"info": {
+		"_postman_id": "0e43fc4e-4b31-4699-bc03-b75030bd5306",
+		"name": "delilah_resto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "productos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenNicole}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenNicole}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/productos",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "producto id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/productos/4",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"productos",
+						"4"
+					]
+				},
+				"description": "get de un prod por su id"
+			},
+			"response": []
+		},
+		{
+			"name": "producto nuevo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"nombre\": \"Bagel Veggie\",\n    \"precio\": 370,\n    \"descripcion\": \"Bagel veggie de tofu con queso y palta. Viene con papas\",\n    \"imagen\": \"bagel_veggie.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/productos",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"productos"
+					]
+				},
+				"description": "crear un producto nuevo"
+			},
+			"response": []
+		},
+		{
+			"name": "modificar producto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"nombre\": \"Bagel de salmon\",\n    \"precio\": 380,\n    \"descripcion\": \"Bagel de salmon con queso y palta. Viene con papas\",\n    \"imagen\": \"bagel_salmon.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/productos/9",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"productos",
+						"9"
+					]
+				},
+				"description": "edicion de producto existente en la tabla de productos"
+			},
+			"response": []
+		},
+		{
+			"name": "Producto - eliminarId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRvc1VzdWFyaW8iOnsiaWRfdXN1YXJpbyI6MSwidXN1YXJpbyI6ImFudG9iYXl1Z2FyIiwicHciOiIxMjM0NTYiLCJhZG1pbiI6MX0sImlhdCI6MTYwNDg3MTU5MX0.tkR0I-VflTutJGATziSX3ajTWHBldcvFe8kLi1wNc34",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"nombre\": \"hola\",\n    \"precio\": 300,\n    \"descripcion\": \"Hamburguesa de carne con queso, jamon, tomate y lechuga. Viene con papas\",\n    \"imagen\": \"hamburguesa.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/productos/6",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"productos",
+						"6"
+					]
+				},
+				"description": "elimnacion de un producto en la tabla de producto por su id"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuarios",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/usuarios",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				},
+				"description": "Trae todos los usuarios registrados"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario - sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"usuario\": \"salvador\",\n        \"nombre_apellido\": \"salvador bayugar\",\n        \"email\": \"salvi@email.com\",\n        \"telefono\": \"1144443333\",\n        \"direccion_envio\": \"calle falsa 123, san isidro\",\n        \"pw\": \"salvi1234\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/usuario/signup",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"usuario",
+						"signup"
+					]
+				},
+				"description": "nuevo usuario"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuario - log in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"usuario\": \"nikinicole\",\n        \"pw\": \"nicole1234\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/usuario/login",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"usuario",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pedidos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/pedidos",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pedido id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenPri}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/pedidos/14",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"pedidos",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pedidos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenNicole}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id_pago\": \"1\",\n    \"detalles\": [\n        {\n            \"id_producto\": \"9\",\n            \"cantidad_producto\": \"1\"\n        },\n        {\n            \"id_producto\": \"1\",\n            \"cantidad_producto\": \"2\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/pedidos",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"pedidos"
+					]
+				},
+				"description": "crear nuevo pedido"
+			},
+			"response": []
+		},
+		{
+			"name": "pedido id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"estado_nuevo\": \"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/pedidos/14",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"pedidos",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pedido id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{tokenAdmin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/pedidos/13",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"pedidos",
+						"13"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "44b0316f-f800-4cbd-952f-afdbe9f5f4c0",
+			"key": "BaseURL",
+			"value": "localhost:3001"
+		},
+		{
+			"id": "af2abada-cb44-4177-8db8-e920c3fdb589",
+			"key": "tokenAdmin",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRvc1VzdWFyaW8iOnsiaWRfdXN1YXJpbyI6MSwidXN1YXJpbyI6ImFudG9iYXl1Z2FyIiwicHciOiIxMjM0NTYiLCJhZG1p..."
+		},
+		{
+			"id": "67265fc9-a62a-4a9a-8fc1-6195235f40a3",
+			"key": "tokenPri",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRvc1VzdWFyaW8iOnsiaWRfdXN1YXJpbyI6MiwidXN1YXJpbyI6InByaWJyZXkiLCJwdyI6IjEyMzQ1NiIsImFkbWluIjow..."
+		},
+		{
+			"id": "4677fa45-8df5-4c71-bb7c-dfd54e5af27f",
+			"key": "tokenNicole",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRvc1VzdWFyaW8iOnsiaWRfdXN1YXJpbyI6OSwidXN1YXJpbyI6Im5pa2luaWNvbGUiLCJwdyI6Im5pY29sZTEyMzQiLCJhZG1pbiI6MH0sImlhdCI6MTYwNTc1MTA3MH0.JB4CDx2dEPhSdnI-AYqfEkU5Ci3Vvh_kj87ATQzc-y8"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

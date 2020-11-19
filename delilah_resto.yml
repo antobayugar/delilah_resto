@@ -25,15 +25,15 @@ paths:
       operationId: verProductos
       responses:
         '200':
-          description: Productos traídos exitosamente
+          description: Lista de productos traídos exitosamente.
           content:
             application/json:
               schema:
                 type: array
                 items:  
-                  $ref: '#/components/schemas/Producto'
-        '400':
-          description: Error 400. Lista de productos no encontrada
+                  $ref: '#/components/schemas/Productos'
+        '404':
+          description: Error 404. Lista de productos no encontrada.
     post:
       tags:
       - productos
@@ -50,13 +50,15 @@ paths:
                 contentType: image/png, image/jpeg
       responses:
         '200':
-          description: Producto agregado exitosamente
+          description: Producto agregado exitosamente.
           content:
             application/json:
               schema:
                $ref: '#/components/schemas/Producto'
         '400':
-          description: Error 400. Producto no agregado
+          description: El producto ingresado ya existe, intentá con otro.
+        '400':
+          description: Error 400. Intente nuevamente.
   /productos/{productoId}:
     get:
       tags:
@@ -77,8 +79,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Producto'
+        '404':
+          description: Error 404. Producto no encontrado
         '400':
-          description: Error 400. Producto no encontrado
+          description: Error 400. Intente nuevamente
     put:
       tags:
       - productos
@@ -102,8 +106,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Producto'
+        '404':
+          description: Error 404. El producto ingresado no existe. No se actualizó ningun producto
         '400':
-          description: Error 400. Producto no actualizado
+          description: Error 400. Intente nuevamente
     delete:
       tags:
       - productos
@@ -122,8 +128,10 @@ paths:
       responses:
         '200':
           description: Producto eliminado exitosamente
+        '404':
+          description: Error 404. El producto ingresado no existe. No se actualizó ningun producto
         '400':
-          description: Error 400. Producto no eliminado
+          description: Error 400. Intente nuevamente
   /usuarios:
     get:
       tags:
@@ -138,9 +146,9 @@ paths:
               schema:
                 type: array
                 items:  
-                  $ref: '#/components/schemas/Usuario'
-        '400':
-          description: Error 400. Lista de usuarios no encontrada
+                  $ref: '#/components/schemas/Usuarios'
+        '404':
+          description: Error 404. Lista de usuarios no encontrada
   /usuario/signup:
     post:
       tags:
@@ -178,7 +186,11 @@ paths:
         "200":
           description: Usuario logueado exitosamente
         "400":
-          description: Error 400. Usuario no logueado
+          description: Error 400. Intente nuevamente
+        "400":
+          descripcion: La contraseña ingresada es incorrecta. Intentá otra vez
+        "404":
+          description: Error 404. El usuario ingresado no existe, intentá con otro o registrate para acceder
   /pedidos:
     get:
       tags:
@@ -193,14 +205,16 @@ paths:
               schema:
                   type: array
                   items:
-                    $ref: '#/components/schemas/Pedido'
+                    $ref: '#/components/schemas/Pedidos'
+        '404':
+          description: Error 404. Lista de pedidos no encontrada
         '400':
-          description: Error 400. Lista de pedidos no encontrada
+          description: Error 400. Intente nuevamente
     post:
       tags:
       - pedidos
       summary: Agregar un nuevo pedido
-      operationId: agregarPedido
+      operationId: crearPedido
       requestBody:
         required: true
         content:
@@ -209,10 +223,9 @@ paths:
                 $ref: '#/components/schemas/PedidoNuevo'
       responses:
         '200':
-          description: Pedido agregado exitosamente
+          description: Pedido creado exitosamente
         '400':
-          description: Error 400. Pedido no agregado
-          
+          description: Error 400. Pedido no creado
   /pedidos/{pedidoId}:
     get:
       tags:
@@ -233,13 +246,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pedido'
+        '404':
+          description: Error 404. Pedido no encontrado
         '400':
-          description: Error 400. Pedido no encontrado
+          description: Error 400. Intente nuevamente
     put:
       tags:
       - pedidos
-      summary: Actualizar estado del pedido
-      operationId: actualizarPedido
+      summary: Modificar estado del pedido
+      operationId: modificarPedido
       parameters: 
       - in: path
         name: pedidoId
@@ -250,9 +265,11 @@ paths:
               $ref: '#/components/schemas/PedidoEstado'
       responses:
         '200':
-          description: Pedido actualizado exitosamente
+          description: Estado del pedido actualizado exitosamente
+        '404':
+          description: Error 404. Pedido no encontrado
         '400':
-          description: Error 400. Pedido no encontrado
+          description: Error 400. Intente nuevamente
     delete:
       tags:
       - pedidos
@@ -271,11 +288,35 @@ paths:
       responses:
         '200':
           description: Pedido eliminado exitosamente
+        '404':
+          description: Error 404. Pedido no encontrado
         '400':
-          description: Error 400. Pedido no encontrado
+          description: Error 400. Intente nuevamente
   
 components:
   schemas:
+    Productos:
+      type: object
+      properties:
+        id_producto:
+          type: integer
+          description: ID del producto
+          example: 4
+        nombre: 
+          type: string
+          description: Nombre del producto
+          example: 'Sandwich de lomito'
+        precio:
+          type: number
+          description: Precio del producto
+          example: 420
+        descripcion:
+          type: string
+          description: Descripción corta del producto
+          example: 'Sandwich de lomito a la parrilla con queso'
+        imagen:
+          type: string
+          format: binary
     Producto:
       type: object
       properties:
@@ -294,6 +335,41 @@ components:
         imagen:
           type: string
           format: binary
+    Usuarios:
+      type: object
+      properties:
+        id_usuario:
+          type: integer
+          description: ID del usuario
+          example: 5
+        usuario: 
+          type: string
+          description: Usuario
+          example: 'queen_freddie'
+        nombre_apellido: 
+          type: string
+          description: Nombre y apellido del usuario
+          example: 'Freddie Mercury'
+        email: 
+          type: string
+          description: Mail del usuario
+          example: 'freddie@gmail.com'
+        telefono:
+          type: integer
+          description: Teléfono del usuario
+          example: 541144444444
+        direccion_envio:
+          type: string
+          description: Dirección de envío del usuario
+          example: 'Calle de freddie mercury, londres, uk'
+        pw:
+          type: string
+          description: Contraseña del usuario
+          example: '1lovemyc4ts'
+        admin:
+            type: integer
+            description: Rol del usuario
+            example: 2
     Usuario:
       type: object
       properties:
@@ -321,13 +397,6 @@ components:
           type: string
           description: Contraseña del usuario
           example: '1lovemyc4ts'
-      required:
-        - usuario
-        - nombre_apellido
-        - email
-        - telefono
-        - direccion_envio
-        - pw
     UsuarioLogin:
       type: object
       properties:
@@ -339,97 +408,20 @@ components:
           type: string
           description: Contraseña del usuario
           example: '1lovemyc4ts'
-      required:
-        - pw
-    Pedido:
-      type: object
-      properties:
-        productos: 
-          type: array
-          description: Array de productos encargados
-          items:
-            properties:
-              id_producto: 
-                type: integer
-                description: Id del pedido
-                example: 1
-              cantidad: 
-                type: integer
-                description: cantidad del producto pedido
-                example: 2
-              precio_unitario: 
-                type: number
-                description: precio del producto pedido
-                example: 330
-        precio_total: 
-          type: number
-          description: Suma total del precio de los productos encargados y sus cantidades
-          example: 660
-        metodo_pago:
-          type: string
-          enum:
-            - efectivo
-            - tarjeta
-          default: efectivo
-        estado:
-          type: string
-          enum:
-            - nuevo
-            - confirmado
-            - preparando
-            - enviando
-            - entregado
-            - cancelado
-          default: nuevo
-        hora:
-          type: string
-          description: Hora en la que el pedido se realizó
-          example: '20:44'
-        id_usuario:
-          type: integer
-          description: Cliente identificado
-          example: 33
-      required:
-        - productos
-        - precio_total
-        - metodo_pago
-        - status
-        - hora
-        - id_usuario
-    PedidoNuevo:
-      type: object
-      properties:
-        productos: 
-          type: array
-          description: Array de productos encargados
-          items:
-            properties:
-              id_producto: 
-                type: integer
-                description: Id del pedido
-                example: 1
-              cantidad: 
-                type: integer
-                description: cantidad del producto pedido
-                example: 2
-        metodo_pago:
-          type: string
-          enum:
-            - efectivo
-            - tarjeta
-          default: efectivo
-      required:
-        - productos
-        - metodo_pago
-    PedidoEstado:
+    Pedidos:
       type: object
       properties:
         id_pedido:
           type: integer
-          description: Id del pedido
-          example: 1
+          description: ID del pedido
+          example: 5
+        fecha_pedido:
+          type: date
+          description: fecha y hora del pedido
+          example: 2020-11-15T23:23:08.000Z
         estado:
           type: string
+          description: Estado actual del producto
           enum:
             - nuevo
             - confirmado
@@ -437,9 +429,107 @@ components:
             - enviando
             - entregado
             - cancelado
-      required:
-        - id_pedido
-        - estado
+          example: 'nuevo'
+        tipo_pago:
+          type: string
+          description: Tipo de pago elegido para el pedido
+          enum:
+            - efectivo
+            - tarjeta de credito/debito
+          example: 'efectivo'
+        nombre:
+          type: string
+          description: Nombre del producto elegido
+          example: 'Sandwich de lomito'
+        cantidad_producto:
+          type: integer
+          description: cantidad pedida del producto
+          example: 2
+        precio:
+          type: number
+          description: Precio del producto elegido
+          example: 420
+        subtotal:
+          type: number
+          description: Subtotal del producto * cantidades elegidas
+          example: 840
+        usuario:
+          type: string
+          description: Usuario que realizo el pedido
+          example: 'queen_freddie'
+        nombre_apellido:
+          type: string
+          description: Nombre y apellido del usuario que realizo el pedido
+          example: 'Freddie Mercury'
+        direccion_envio:
+          type: string
+          description: Dirección de envío del usuario que realizo el pedido
+          example: 'Calle de freddie mercury, londres, uk'
+        email:
+          type: string
+          description: Mail del usuario que realizo el pedido
+          example: 'freddie@gmail.com'
+    Pedido:
+      type: object
+      properties:
+        id_pedido:
+          type: integer
+          description: ID del pedido
+          example: 5
+        estado:
+          type: string
+          description: Estado actual del producto
+          enum:
+            - nuevo
+            - confirmado
+            - preparando
+            - enviando
+            - entregado
+            - cancelado
+          example: 'nuevo'
+        nombre:
+          type: string
+          description: Nombre del producto elegido
+          example: 'Sandwich de lomito'
+        cantidad_producto:
+          type: integer
+          description: cantidad pedida del producto
+          example: 2
+        precio:
+          type: number
+          description: Precio del producto elegido
+          example: 420
+        subtotal:
+          type: number
+          description: Subtotal del producto * cantidades elegidas
+          example: 840
+    PedidoNuevo:
+      type: object
+      properties:
+        id_pago:
+          type: integer
+          description: Tipo de pago elegido
+          default: 1
+        productos: 
+          type: array
+          description: Array de productos encargados
+          items:
+            properties:
+              id_producto: 
+                type: integer
+                description: Id del pedido
+                example: 1
+              cantidad_producto: 
+                type: integer
+                description: cantidad del producto pedido
+                example: 2
+    PedidoEstado:
+      type: object
+      properties:
+        estado_nuevo:
+          type: integer
+          description: ID del estado nuevo
+          example: 2
 
 externalDocs:
   description: Explorá la API acá

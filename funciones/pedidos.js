@@ -35,7 +35,7 @@ const crearPedido = async function crearPedido(req, res) {
             return res.status(400).send('Error 400. Pedido no creado.');
         })
 };
-
+ 
 //fx para ver todos los pedidos realizados
 const verPedidos = async function verPedidos(req, res) {
     //valido que existan pedidos
@@ -43,7 +43,7 @@ const verPedidos = async function verPedidos(req, res) {
         .then(data => {
             if (data === null) {
                 //si no existen, devuelvo el mensaje
-                return res.status(400).send('Error 400. Lista de pedidos no encontrada.');
+                return res.status(404).send('Error 404. Lista de pedidos no encontrada.');
             } else {
                 //si existen, devuelvo la lista
                 sequelize.query(`SELECT  
@@ -71,14 +71,14 @@ const verPedidos = async function verPedidos(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })
 };
 
 //fx para ver todos el pedido del usuario
-const detallePedido = async function detallePedido(req, res) {
+const verPedidoId = async function verPedidoId(req, res) {
     const pedidoId = req.params.pedidoId;
 
     //validacion: busco el pedido id
@@ -86,7 +86,7 @@ const detallePedido = async function detallePedido(req, res) {
         .then(data => {
             if (data === null) {
                 //si no se encuentra, devuelvo pedido no encontrado
-                return res.status(400).send('Error 400. Pedido no encontrado.');
+                return res.status(404).send('Error 404. Pedido no encontrado.');
             } else {
                 //si se encuentra, hago el query 
                 sequelize.query(`SELECT  
@@ -107,13 +107,13 @@ const detallePedido = async function detallePedido(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -128,7 +128,7 @@ const modificarPedido = async function modificarPedido(req, res) {
         .then(data => {
             if (data === null) {
                 //si no se encuentra, devuelvo pedido no encontrado
-                return res.status(400).send('Error 400. Pedido no encontrado.');
+                return res.status(404).send('Error 404. Pedido no encontrado.');
             } else {
                 //si se encuentra, hago el update
                 Pedidos.update({
@@ -143,13 +143,13 @@ const modificarPedido = async function modificarPedido(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -164,7 +164,7 @@ const eliminarPedido = async function eliminarPedido(req, res) {
         .then(data => {
             if (data === null) {
                 //si no se encuentra, devuelvo pedido no encontrado
-                return res.status(400).send('Error 400. Pedido no encontrado.');
+                return res.status(404).send('Error 404. Pedido no encontrado.');
             } else {
                 //si se encuentra, hago el delete
                 Pedidos.destroy({
@@ -177,13 +177,13 @@ const eliminarPedido = async function eliminarPedido(req, res) {
                     })
                     .catch(err => {
                         console.log(err);
-                        return res.status(404).send('Error 404. Intente nuevamente.');
+                        return res.status(400).send('Error 400. Intente nuevamente.');
                     })
             }
         })
         .catch(err => {
             console.log(err);
-            return res.status(404).send('Error 404. Intente nuevamente.');
+            return res.status(400).send('Error 400. Intente nuevamente.');
         })
 };
 
@@ -191,7 +191,7 @@ const eliminarPedido = async function eliminarPedido(req, res) {
 module.exports = {
     crearPedido,
     verPedidos,
-    detallePedido,
+    verPedidoId,
     modificarPedido,
     eliminarPedido
 }
